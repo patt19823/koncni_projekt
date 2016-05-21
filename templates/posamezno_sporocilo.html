@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Posamezno sporočilo</title>
+</head>
+<body>
+
+    <h2>Posamezno sporočilo</h2>
+
+    <p>Ime uporabnika: {{ sporocilo.ime }}</p>
+    <p>Email: {{ sporocilo.email }}</p>
+    <p>Tekst: {{ sporocilo.tekst }}</p>
+    <p>Čas nastanka: {{ sporocilo.nastanek }}</p>
+
+    <p><a href="/sporocilo/{{ sporocilo.key.id() }}/uredi">Uredi sporočilo</a></p>
+    <p><a href="/sporocilo/{{ sporocilo.key.id() }}/izbrisi">Izbriši sporočilo</a></p>
+    <p><a href="/prikazi-sporocila">Vrni se na vsa sporočila</a></p>
+
+</body>
+</html>

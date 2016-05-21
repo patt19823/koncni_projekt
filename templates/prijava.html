@@ -1,0 +1,35 @@
+{% extends "base_prijava_registracija.html" %}
+{% block title %}Prijava{% endblock title %}
+
+<body>
+{% block specifika %}
+        {% if logiran %}
+            <div class="panel panel-default">
+                <div class="panel-heading margin">
+                     <h2> Dobrodošli!</h2>
+
+                </div>
+            <div class="panel-body">
+               <a href="/prikazi-sporocila" class="btn btn-success">Poglej vsa sporočila</a>
+                <a href="/poslji-sporocilo" class="btn btn-danger">Pošlji novo sporočilo</a>
+            </div></div>
+        {% else %}
+             <div class="panel panel-default">
+                <div class="panel-heading margin">
+                    <h4>Prijavi se</h4>
+                 </div>
+                    <div class="panel-body">
+                        <form action="/" method="post">
+                            <input placeholder="Vnesi svoj email" name="email" type="email"> <br>
+                            <input placeholder="Vnesi svoje geslo" name="geslo" type="password"> <br>
+                            <button type="submit" class="btn btn-success">Vstopi</button>
+                        </form>
+                        <h2>Se nisi prijavljen?</h2> <a href="/registracija" class="btn btn-default">Registriraj se tukaj </a>
+                    </div>
+
+             </div>
+        {% endif %}
+    </div>
+{% endblock specifika %}
+</body>
+</html>

@@ -1,0 +1,30 @@
+{% extends "base_prijava_registracija.html" %}
+    {% block title %}Registracija{% endblock title %}
+
+{% block specifika %}
+<div class="panel panel-default margin">
+    <div class="panel-heading margin">
+        <h4>Registracija</h4>
+    </div>
+
+    <div class="panel-body margin">
+        <form method="post" action="/registracija">
+                <p>
+                    <input type="text" class="form-control" name="ime" placeholder="Vnesi ime">
+                </p>
+                <p>
+                    <input type="email" class="form-control" name="email" placeholder="Vnesi svoj email">
+                </p>
+                <p>
+                    <input type="password" class="form-control" name="geslo" placeholder="Vnesi svoje geslo">
+                </p>
+                <p>
+                    <input type="password" class="form-control" name="geslo" placeholder="Potrdi svoje geslo">
+                </p>
+                <p>
+                    <button type="submit" class="btn btn-success">Registriraj Se</button>
+                </p>
+        </form>
+    </div>
+</div>
+{% endblock specifika %}

@@ -1,0 +1,24 @@
+{% extends "base_prijava_registracija.html" %}
+{% block title %}Novo sporočilo{% endblock title %}
+{% block specifika %}
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h4>Vnesi svoje sporočilo</h4>
+    </div>
+
+    <div class="panel-body">
+        <form method="post" action="/poslji-sporocilo">
+                <p>
+                    <input type="text" class="form-control" name="ime" placeholder="Vnesi ime">
+                </p>
+                <p>
+                    <input type="text" class="form-control" name="sporocilo" placeholder="Vnesi sporočilo">
+                </p>
+                <p>
+                    <button type="submit" class="btn btn-success">Pošlji</button>
+                </p>
+            </form>
+    </div></div>
+
+{% endblock specifika %}

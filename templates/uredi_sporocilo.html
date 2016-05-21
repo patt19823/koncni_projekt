@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Urejanje sporočila</title>
+</head>
+<body>
+
+    <h1>Urejanje sporočila</h1>
+
+    <form method="post" action="/sporocilo/{{ sporocilo.key.id() }}/uredi">
+        <p>
+            Ime:
+            <input name="ime" value="{{ sporocilo.ime }}" />
+        </p>
+        <p>
+            Email:
+            <input name="email"  value="{{ sporocilo.email }}" />
+        </p>
+        <p>
+            Sporočilo:
+            <input name="sporocilo"  value="{{ sporocilo.tekst }}" />
+        </p>
+        <p>
+            <button type="submit">Uredi</button>
+        </p>
+    </form>
+
+</body>
+</html>
