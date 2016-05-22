@@ -9,6 +9,8 @@ import time
 import hmac
 import hashlib
 from secret import secret
+from google.appengine.api import urlfetch
+import json
 
 template_dir = os.path.join(os.path.dirname(__file__), "templates")
 jinja_env = jinja2.Environment(loader=jinja2.FileSystemLoader(template_dir), autoescape=False)
@@ -39,7 +41,7 @@ class BaseHandler(webapp2.RequestHandler):
 
     def ustvari_cookie(self, uporabnik):
         uporabnik_id = uporabnik.key.id()
-        expires = datetime.datetime.utcnow() + datetime.timedelta(days=10)
+        expires = datetime.datetime.utcnow() + datetime.timedelta(minutes=10)
         expires_ts = int(time.mktime(expires.timetuple()))
         sifra = hmac.new(str(uporabnik_id), str(secret) + str(expires_ts), hashlib.sha1).hexdigest()
         vrednost = "{0}:{1}:{2}".format(uporabnik_id, sifra, expires_ts)
@@ -83,7 +85,7 @@ class RegistracijaHandler(BaseHandler):
         geslo = self.request.get("geslo")
         ponovno_geslo = self.request.get("ponovno_geslo")
 
-        if geslo == ponovno_geslo:
+        if ponovno_geslo == geslo:
             Uporabnik.ustvari(ime=ime, email=email, original_geslo=geslo)
             self.redirect("/")
         else:
@@ -97,24 +99,28 @@ class PosljiSporociloHandler(BaseHandler):
     def get(self):
         return self.render_template("poslji_sporocilo.html")
 
-    def post(self):
-        uporabnikovo_ime = self.request.get("ime")
-        uporabnikovo_sporocilo = self.request.get("sporocilo")
-        uporabnikovo_ime = cgi.escape(uporabnikovo_ime)
-        uporabnikovo_sporocilo = cgi.escape(uporabnikovo_sporocilo)
-
-
-        sporocilo = Sporocilo(ime=uporabnikovo_ime, tekst=uporabnikovo_sporocilo)
+    def post(self, uporabnik):
+        zadeva = self.request.get("zadeva")
+        tekst = self.request.get("tekst")
+        email_prejemnika = self.request.get("email_prejemnika")
+        #KAKO UJAMES ID IZ COOKIJA??
+        #posiljatelj_id = uporabnik.key.id()
+        #posiljatelj_id = Uporabnik.get_by_id(int(uporabnik))
+        zadeva = cgi.escape(zadeva)
+        tekst = cgi.escape(tekst)
+        prejemnik = Uporabnik.gql("WHERE email=" ' " + email_prejemnika +" ' "").get()
+        sporocilo = Sporocilo(email_prejemnika=email_prejemnika, prejemnik=prejemnik, posiljatelj_id=posiljatelj_id, zadeva=zadeva, tekst=tekst)
         sporocilo.put()
 
         self.redirect("/prikazi-sporocila")
 
 
-
+#
 class PrikaziSporocilaHandler(BaseHandler):
     def get(self):
         vsa_sporocila = Sporocilo.query().order(Sporocilo.nastanek).fetch()
-
+        #PRIKAZ PRAVILNEGA SPOROCILA
+        #prejemnik = Uporabnik.gql("WHERE email=" ' " + email_prejemnika +" ' "").get()
         view_vars = {
             "vsa_sporocila": vsa_sporocila,
         }
@@ -170,6 +176,27 @@ class IzbrisiSporociloHandler(BaseHandler):
         self.redirect("/prikazi-sporocila")
 
 
+class VremeHandler(BaseHandler):
+    def get(self):
+        london_url = "http://api.openweathermap.org/data/2.5/weather?q=London,uk&units=metric&appid=927c80ca407d04dd36459c5044dbd69f"
+        result_one = urlfetch.fetch(london_url)
+        london_vreme = json.loads(result_one.content)
+        ljubljana_url = "http://api.openweathermap.org/data/2.5/weather?q=Ljubljana,slovenia&units=metric&appid=927c80ca407d04dd36459c5044dbd69f"
+        result_two = urlfetch.fetch(ljubljana_url)
+        ljubljana_vreme = json.loads(result_two.content)
+        hongkong_url = "http://api.openweathermap.org/data/2.5/weather?q=Hongkong,hk&units=metric&appid=927c80ca407d04dd36459c5044dbd69f"
+        result_three = urlfetch.fetch(hongkong_url)
+        hongkong_vreme = json.loads(result_three.content)
+
+
+        view_vars={
+            "london_vreme": london_vreme,
+            "ljubljana_vreme": ljubljana_vreme,
+            "hongkong_vreme": hongkong_vreme
+        }
+        return self.render_template("vreme.html", view_vars)
+
+
 app = webapp2.WSGIApplication([
     webapp2.Route('/', MainHandler),
     webapp2.Route('/poslji-sporocilo', PosljiSporociloHandler),
@@ -179,4 +206,5 @@ app = webapp2.WSGIApplication([
     webapp2.Route('/sporocilo/<sporocilo_id:\d+>/izbrisi', IzbrisiSporociloHandler),
     webapp2.Route('/registracija', RegistracijaHandler),
     webapp2.Route('/napacno-geslo', NapacnoGesloHandler),
+    webapp2.Route('/vreme', VremeHandler),
 ], debug=True)

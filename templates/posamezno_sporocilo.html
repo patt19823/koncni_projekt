@@ -1,21 +1,19 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Posamezno sporočilo</title>
-</head>
-<body>
+{% extends "base_sporocila.html" %}
+{% block title %}Bmail{% endblock title %}
 
-    <h2>Posamezno sporočilo</h2>
+{% block specifika %}
+<div class="col-md-7 col-lg-9 col-sm-9">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <p>Email: {{ sporocilo.email_posiljatelja }} - {{ sporocilo.nastanek }}</p>
+            <p>Zadeva: {{ sporocilo.zadeva }}</p>
+        </div>
+        <div class="panel-body">
+            <p>Tekst: {{ sporocilo.tekst }}</p>
 
-    <p>Ime uporabnika: {{ sporocilo.ime }}</p>
-    <p>Email: {{ sporocilo.email }}</p>
-    <p>Tekst: {{ sporocilo.tekst }}</p>
-    <p>Čas nastanka: {{ sporocilo.nastanek }}</p>
+            <p><a href="/sporocilo/{{ sporocilo.key.id() }}/izbrisi">Izbriši sporočilo</a></p>
+         </div>
+    </div>
+</div>
 
-    <p><a href="/sporocilo/{{ sporocilo.key.id() }}/uredi">Uredi sporočilo</a></p>
-    <p><a href="/sporocilo/{{ sporocilo.key.id() }}/izbrisi">Izbriši sporočilo</a></p>
-    <p><a href="/prikazi-sporocila">Vrni se na vsa sporočila</a></p>
-
-</body>
-</html>
+{% endblock specifika %}

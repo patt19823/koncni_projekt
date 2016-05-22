@@ -1,10 +1,42 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends "base_sporocila.html" %}
+{% block title %}Vreme{% endblock title %}
 
+<body>
+{% block specifika %}
+<div class="col-md-4 col-lg-4 col-sm-3">
+            <div class="panel panel-default">
+
+                <div class="panel-heading margin">
+                     <h4>Vreme v kraju {{ london_vreme.name }}</h4>
+                </div>
+                <div class="panel-body">
+                    <p>Opis: {{ london_vreme.weather[0].description }}</p>
+                    <p>Trenutna temperatura: {{ london_vreme.main.temp }} stopinj C</p>
+                </div>
+</div></div>
+
+<div class="col-md-4 col-lg-4 col-sm-3">
+    <div class="panel panel-default">
+                <div class="panel-heading margin">
+                 <h4>Vreme v kraju {{ hongkong_vreme.sys.country }}</h4>
+                </div>
+                <div class="panel-body">
+                    <p>Opis: {{ hongkong_vreme.weather[0].description }}</p>
+                    <p>Trenutna temperatura: {{ hongkong_vreme.main.temp }} stopinj C</p>
+                </div>
+</div></div>
+
+<div class="col-md-4 col-lg-4 col-sm-3">
+    <div class="panel panel-default">
+                <div class="panel-heading margin">
+                    <h4>Vreme v kraju {{ ljubljana_vreme.name }}</h4>
+                </div>
+                <div class="panel-body">
+                    <p>Opis: {{ ljubljana_vreme.weather[0].description }}</p>
+                    <p>Trenutna temperatura: {{ ljubljana_vreme.main.temp }} stopinj C</p>
+                </div>
+            </div>
+</div>
+{% endblock specifika %}
 </body>
 </html>

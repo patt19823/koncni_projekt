@@ -28,7 +28,11 @@ class Uporabnik(ndb.Model):
             return False
 
 class Sporocilo(ndb.Model):
-    ime = ndb.StringProperty()
+    posiljatelj_id = ndb.IntegerProperty()
+    prejemnik = ndb.IntegerProperty()
+    email_prejemnika = ndb.StringProperty()
+    email_posiljatelja = ndb.StringProperty()
+    zadeva = ndb.StringProperty()
     tekst = ndb.StringProperty()
     nastanek = ndb.DateTimeProperty(auto_now_add=True)
 

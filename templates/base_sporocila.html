@@ -16,9 +16,11 @@
     margin: auto;
     }
     .gumb{
-    margin:2%;
+    margin: 5%;
     text-align:center;
     }
+    .long{
+    height: 100px;}
 </style>
 </head>
 <body>
@@ -27,6 +29,15 @@
             </div>
 <div class="container">
     <div class="row">
+        <div class="col-lg-2 col-md-2 col-sm-2">
+
+    <a href="/poslji-sporocilo" class="btn btn-danger gumb">Pošlji novo sporočilo</a>
+    <ul class="nav nav-pills nav-stacked">
+        <li role="presentation" class="active"><a href="/prikazi-sporocila">Prejeto</a></li>
+        <li role="presentation"><a href="#">Poslano</a></li>
+        <li role="presentation"><a href="/vreme">Poglej Vreme</a></li>
+    </ul>
+    </div>
             {% block specifika %}{% endblock specifika %}
 
     </div>

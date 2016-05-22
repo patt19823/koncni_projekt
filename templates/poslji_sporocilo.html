@@ -1,24 +1,29 @@
-{% extends "base_prijava_registracija.html" %}
+{% extends "base_sporocila.html" %}
 {% block title %}Novo sporočilo{% endblock title %}
 {% block specifika %}
+<div class="col-lg-6 col-md-6 col-sm-4">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4>Vnesi svoje sporočilo</h4>
+        </div>
 
-<div class="panel panel-default">
-    <div class="panel-heading">
-        <h4>Vnesi svoje sporočilo</h4>
-    </div>
-
-    <div class="panel-body">
-        <form method="post" action="/poslji-sporocilo">
-                <p>
-                    <input type="text" class="form-control" name="ime" placeholder="Vnesi ime">
-                </p>
-                <p>
-                    <input type="text" class="form-control" name="sporocilo" placeholder="Vnesi sporočilo">
-                </p>
-                <p>
-                    <button type="submit" class="btn btn-success">Pošlji</button>
-                </p>
-            </form>
-    </div></div>
+        <div class="panel-body">
+            <form method="post" action="/poslji-sporocilo">
+                    <p>Od: {{ posiljatelj_id }}</p>
+                    <p>
+                        <input type="text" class="form-control" name="email_prejemnika" placeholder="email prejemnika">
+                    </p>
+                    <p>
+                        <input type="text" class="form-control" name="zadeva" placeholder="zadeva">
+                    </p>
+                    <p>
+                        <input type="text" class="form-control" name="tekst" placeholder="Vnesi sporočilo">
+                    </p>
+                    <p>
+                        <button type="submit" class="btn btn-success">Pošlji</button>
+                    </p>
+                </form>
+        </div></div>
+</div>
 
 {% endblock specifika %}
