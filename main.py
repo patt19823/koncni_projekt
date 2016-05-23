@@ -109,13 +109,10 @@ class PosljiSporociloHandler(BaseHandler):
         cookie_value = self.request.cookies.get("uid")
         uporabnik_id, _, _ = cookie_value.split(":")
         uporabnik_id = int(uporabnik_id)
-        sporocilo = Sporocilo(uporabnik_id=uporabnik_id, email_prejemnika=email_prejemnika ,zadeva=zadeva, tekst=tekst)
+        prejemnik = Uporabnik.gql("WHERE email='"+ email_prejemnika +"'").get()
+        prejemnik_id= prejemnik.key.id()
+        sporocilo = Sporocilo(uporabnik_id=uporabnik_id, prejemnik_id=prejemnik_id, email_prejemnika=email_prejemnika ,zadeva=zadeva, tekst=tekst)
         sporocilo.put()
-        prejemnik = Uporabnik.gql("WHERE email='"' + email_prejemnika + '"'").get()
-
-        # 1 - KAKO DOBITI PREJEMNIKOV ID?
-
-        # prejemnik_id= prejemnik.key.id()
 
         self.redirect("/prikazi-sporocila")
 

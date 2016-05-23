@@ -29,7 +29,7 @@ class Uporabnik(ndb.Model):
 
 class Sporocilo(ndb.Model):
     uporabnik_id = ndb.IntegerProperty()
-    prejemnik = ndb.IntegerProperty()
+    prejemnik_id = ndb.IntegerProperty()
     email_prejemnika = ndb.StringProperty()
     email_posiljatelja = ndb.StringProperty()
     zadeva = ndb.StringProperty()

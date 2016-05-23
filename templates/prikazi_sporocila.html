@@ -8,7 +8,7 @@
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <a href="/sporocilo/{{ sporocilo.key.id() }}"><p><b>Od: {{ sporocilo.email_posiljatelja }}:</b>
-                        Za: {{ sporocilo.email_prejemnika }} -{{ sporocilo.zadeva}} {{ sporocilo.nastanek.day }}.{{ sporocilo.nastanek.month }}.{{ sporocilo.nastanek.year }}
+                        Za: {{ sporocilo.email_prejemnika }} {{ sporocilo.prejemnik }} - {{ sporocilo.zadeva}} {{ sporocilo.nastanek.day }}.{{ sporocilo.nastanek.month }}.{{ sporocilo.nastanek.year }}
                         {{ sporocilo.nastanek.hour }}:{{ sporocilo.nastanek.minute }}</p></a>
 
 
