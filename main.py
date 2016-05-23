@@ -39,9 +39,9 @@ class BaseHandler(webapp2.RequestHandler):
         template = jinja_env.get_template(view_filename)
         self.response.out.write(template.render(params))
 
-    def ustvari_cookie(self, uporabnik):
+    def ustvari_cookie(self, uporabnik, cas_trajanja=10):
         uporabnik_id = uporabnik.key.id()
-        expires = datetime.datetime.utcnow() + datetime.timedelta(minutes=10)
+        expires = datetime.datetime.utcnow() + datetime.timedelta(minutes=cas_trajanja)
         expires_ts = int(time.mktime(expires.timetuple()))
         sifra = hmac.new(str(uporabnik_id), str(secret) + str(expires_ts), hashlib.sha1).hexdigest()
         vrednost = "{0}:{1}:{2}".format(uporabnik_id, sifra, expires_ts)
@@ -76,6 +76,10 @@ class MainHandler(BaseHandler):
         else:
             self.redirect("/napacno-geslo")
 
+'''class LogoutHandler(BaseHandler):
+    def get(self):'''
+
+
 class RegistracijaHandler(BaseHandler):
     def get(self):
        return self.render_template("registracija.html")
@@ -109,6 +113,8 @@ class PosljiSporociloHandler(BaseHandler):
         cookie_value = self.request.cookies.get("uid")
         uporabnik_id, _, _ = cookie_value.split(":")
         uporabnik_id = int(uporabnik_id)
+        #KAKO DOBITI EMAIL POSILJATELJA: TO MORAMO ENACIJ Z IDJEM
+
         prejemnik = Uporabnik.gql("WHERE email='"+ email_prejemnika +"'").get()
         prejemnik_id= prejemnik.key.id()
         sporocilo = Sporocilo(uporabnik_id=uporabnik_id, prejemnik_id=prejemnik_id, email_prejemnika=email_prejemnika ,zadeva=zadeva, tekst=tekst)
@@ -119,14 +125,24 @@ class PosljiSporociloHandler(BaseHandler):
 
 class PrikaziSporocilaHandler(BaseHandler):
     def get(self):
-        vsa_sporocila = Sporocilo.query().order(-Sporocilo.nastanek).fetch()
+        #vsa_sporocila = Sporocilo.query().order(-Sporocilo.nastanek).fetch()
 
-        #2 - PRIKAZ PRAVILNEGA SPOROCILA??
-        # 3 - PRIKAZ EMAILA POSILJATELJA?
+        cookie_value = self.request.cookies.get("uid")
+        uporabnik_id, _, _ = cookie_value.split(":")
+        uporabnik_id = int(uporabnik_id)
+        #self.write(str(uporabnik_id))
+        #return
+        uporabnik = Uporabnik.get_by_id(int(uporabnik_id))
+        email_posiljatelja = uporabnik.email
 
-        #vsa_sporocila = Sporocilo.gql("WHERE id_prejemnika="+ posiljatelj_id).fetch()
+        prejeta_sporocila = Sporocilo.gql("WHERE prejemnik_id="+ str(uporabnik_id)).order(-Sporocilo.nastanek).fetch()
+
+
+
         view_vars = {
-            "vsa_sporocila": vsa_sporocila,
+            "prejeta_sporocila": prejeta_sporocila,
+            "email_posiljatelja": email_posiljatelja,
+
         }
 
         return self.render_template("prikazi_sporocila.html", view_vars)
@@ -200,6 +216,14 @@ class VremeHandler(BaseHandler):
         }
         return self.render_template("vreme.html", view_vars)
 
+class LogoutHandler(BaseHandler):
+    def get(self):
+        cookie_value = self.request.cookies.get("uid")
+        uporabnik_id, _, _ = cookie_value.split(":")
+        uporabnik_id = int(uporabnik_id)
+        uporabnik = Uporabnik.get_by_id(int(uporabnik_id))
+        self.ustvari_cookie(uporabnik, cas_trajanja=-10)
+        self.redirect("/")
 
 app = webapp2.WSGIApplication([
     webapp2.Route('/', MainHandler),
@@ -211,4 +235,5 @@ app = webapp2.WSGIApplication([
     webapp2.Route('/registracija', RegistracijaHandler),
     webapp2.Route('/napacno-geslo', NapacnoGesloHandler),
     webapp2.Route('/vreme', VremeHandler),
+    webapp2.Route('/logout', LogoutHandler),
 ], debug=True)
