@@ -28,7 +28,7 @@ class Uporabnik(ndb.Model):
             return False
 
 class Sporocilo(ndb.Model):
-    posiljatelj_id = ndb.IntegerProperty()
+    uporabnik_id = ndb.IntegerProperty()
     prejemnik = ndb.IntegerProperty()
     email_prejemnika = ndb.StringProperty()
     email_posiljatelja = ndb.StringProperty()

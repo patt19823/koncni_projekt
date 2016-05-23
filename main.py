@@ -99,28 +99,35 @@ class PosljiSporociloHandler(BaseHandler):
     def get(self):
         return self.render_template("poslji_sporocilo.html")
 
-    def post(self, uporabnik):
+    def post(self):
         zadeva = self.request.get("zadeva")
         tekst = self.request.get("tekst")
         email_prejemnika = self.request.get("email_prejemnika")
-        #KAKO UJAMES ID IZ COOKIJA??
-        #posiljatelj_id = uporabnik.key.id()
-        #posiljatelj_id = Uporabnik.get_by_id(int(uporabnik))
         zadeva = cgi.escape(zadeva)
         tekst = cgi.escape(tekst)
-        prejemnik = Uporabnik.gql("WHERE email=" ' " + email_prejemnika +" ' "").get()
-        sporocilo = Sporocilo(email_prejemnika=email_prejemnika, prejemnik=prejemnik, posiljatelj_id=posiljatelj_id, zadeva=zadeva, tekst=tekst)
+
+        cookie_value = self.request.cookies.get("uid")
+        uporabnik_id, _, _ = cookie_value.split(":")
+        uporabnik_id = int(uporabnik_id)
+        sporocilo = Sporocilo(uporabnik_id=uporabnik_id, email_prejemnika=email_prejemnika ,zadeva=zadeva, tekst=tekst)
         sporocilo.put()
+        prejemnik = Uporabnik.gql("WHERE email='"' + email_prejemnika + '"'").get()
+
+        # 1 - KAKO DOBITI PREJEMNIKOV ID?
+
+        # prejemnik_id= prejemnik.key.id()
 
         self.redirect("/prikazi-sporocila")
 
 
-#
 class PrikaziSporocilaHandler(BaseHandler):
     def get(self):
-        vsa_sporocila = Sporocilo.query().order(Sporocilo.nastanek).fetch()
-        #PRIKAZ PRAVILNEGA SPOROCILA
-        #prejemnik = Uporabnik.gql("WHERE email=" ' " + email_prejemnika +" ' "").get()
+        vsa_sporocila = Sporocilo.query().order(-Sporocilo.nastanek).fetch()
+
+        #2 - PRIKAZ PRAVILNEGA SPOROCILA??
+        # 3 - PRIKAZ EMAILA POSILJATELJA?
+
+        #vsa_sporocila = Sporocilo.gql("WHERE id_prejemnika="+ posiljatelj_id).fetch()
         view_vars = {
             "vsa_sporocila": vsa_sporocila,
         }
