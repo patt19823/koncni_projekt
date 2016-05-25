@@ -113,7 +113,6 @@ class PosljiSporociloHandler(BaseHandler):
         cookie_value = self.request.cookies.get("uid")
         uporabnik_id, _, _ = cookie_value.split(":")
         uporabnik_id = int(uporabnik_id)
-        #KAKO DOBITI EMAIL POSILJATELJA: TO MORAMO ENACIJ Z IDJEM
 
         prejemnik = Uporabnik.gql("WHERE email='"+ email_prejemnika +"'").get()
         prejemnik_id= prejemnik.key.id()
@@ -133,9 +132,13 @@ class PrikaziSporocilaHandler(BaseHandler):
         #self.write(str(uporabnik_id))
         #return
         uporabnik = Uporabnik.get_by_id(int(uporabnik_id))
+        #prejemnik = Uporabnik.gql("WHERE email='"+ email_prejemnika +"'").get()
+        #prejemnik_id= prejemnik.key.id()
         email_posiljatelja = uporabnik.email
-
+        #KAKO PRAVILNO PRIKAZATI POSILJATELJEV EMAIL PREJEMNIKU??
+        #POSILJATELJ NI EMAIL OSEBE, KI JE TRENUTNO LOGIRANA V SISTEM PAC PA EMAIL
         prejeta_sporocila = Sporocilo.gql("WHERE prejemnik_id="+ str(uporabnik_id)).order(-Sporocilo.nastanek).fetch()
+        #poslana_sporocila = Sporocilo.gql("WHERE prejemnik_id="+ str(uporabnik_id)).order(-Sporocilo.nastanek).fetch()
 
 
 

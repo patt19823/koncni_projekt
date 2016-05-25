@@ -6,6 +6,7 @@ from google.appengine.ext import ndb
 class Uporabnik(ndb.Model):
     ime = ndb.StringProperty()
     email = ndb.StringProperty()
+    uporabnikov_id = ndb.StringProperty()
     sifrirano_geslo = ndb.StringProperty()
 
     @classmethod
