@@ -1,22 +1,21 @@
 {% extends "base_sporocila.html" %}
 {% block title %}Vreme{% endblock title %}
-
-<body>
 {% block specifika %}
 <div class="container">
     <div class="row">
-        <div class="col-lg-2 col-md-2 col-sm-2">
-
-    <a href="/poslji-sporocilo" class="btn btn-danger gumb">Pošlji novo sporočilo</a>
-    <ul class="nav nav-pills nav-stacked">
-        <li role="presentation"><a href="/prikazi-sporocila">Prejeto</a></li>
-        <li role="presentation"><a href="/poslana-sporocila">Poslano</a></li>
-        <li role="presentation" class="active"><a href="/vreme">Poglej Vreme</a></li>
-    </ul>
-    </div>
-<div class="col-md-4 col-lg-4 col-sm-3">
+        <div class="col-lg-2 col-md-2 col-sm-12">
+            <ul class="nav nav-pills nav-stacked">
+                <li role="presentation"><a class="btn btn-danger" role="button" href="/poslji-sporocilo" >Novo sporočilo</a></li>
+                <li role="presentation"><a href="/prikazi-sporocila">Prejeto</a></li>
+                <li role="presentation" class="active"><a href="/poslana-sporocila">Poslano</a></li>
+                <li role="presentation"><a href="/vreme">Poglej Vreme</a></li>
+                <li role="presentation"><a href="/logout" class="btn btn-default btn-sm margin-bottom">
+                        <span class="glyphicon glyphicon-off" aria-hidden="true"></span> Odjavi se</a></li>
+            </ul>
+        </div>
+        <div class="col-md-8 col-lg-8 col-sm-12">
+            <h5 class="page-header margin" style="text-align:center"> Vreme po svetu</h5>
             <div class="panel panel-default">
-
                 <div class="panel-heading margin">
                      <h4>Vreme v kraju {{ london_vreme.name }}</h4>
                 </div>
@@ -24,18 +23,21 @@
                     <p>Opis: {{ london_vreme.weather[0].description }}</p>
                     <p>Trenutna temperatura: {{ london_vreme.main.temp }} stopinj C</p>
                 </div>
-</div></div>
+            </div>
+        </div>
 
-<div class="col-md-4 col-lg-4 col-sm-3">
-    <div class="panel panel-default">
-                <div class="panel-heading margin">
-                 <h4>Vreme v kraju {{ hongkong_vreme.sys.country }}</h4>
-                </div>
-                <div class="panel-body">
-                    <p>Opis: {{ hongkong_vreme.weather[0].description }}</p>
-                    <p>Trenutna temperatura: {{ hongkong_vreme.main.temp }} stopinj C</p>
-                </div>
-</div></div>
+
+        <div class="col-md-4 col-lg-4 col-sm-3">
+            <div class="panel panel-default">
+                        <div class="panel-heading margin">
+                         <h4>Vreme v kraju {{ hongkong_vreme.sys.country }}</h4>
+                        </div>
+                        <div class="panel-body">
+                            <p>Opis: {{ hongkong_vreme.weather[0].description }}</p>
+                            <p>Trenutna temperatura: {{ hongkong_vreme.main.temp }} stopinj C</p>
+                        </div>
+            </div>
+            </div>
 
 <div class="col-md-4 col-lg-4 col-sm-3">
     <div class="panel panel-default">
