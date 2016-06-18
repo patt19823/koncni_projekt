@@ -37,4 +37,10 @@ class Sporocilo(ndb.Model):
     tekst = ndb.StringProperty()
     nastanek = ndb.DateTimeProperty(auto_now_add=True)
 
+    def dobi_email_posiljatelja(self):
+        return Uporabnik.get_by_id(self.uporabnik_id).email
+
+    def dobi_email_prejemnika(self):
+        return Uporabnik.get_by_id(self.prejemnik_id).email
+
 

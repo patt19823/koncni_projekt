@@ -15,3 +15,9 @@ indexes:
   - name: prejemnik_id
   - name: nastanek
     direction: desc
+
+- kind: Sporocilo
+  properties:
+  - name: uporabnik_id
+  - name: nastanek
+    direction: desc

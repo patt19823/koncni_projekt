@@ -39,7 +39,7 @@ class BaseHandler(webapp2.RequestHandler):
         template = jinja_env.get_template(view_filename)
         self.response.out.write(template.render(params))
 
-    def ustvari_cookie(self, uporabnik, cas_trajanja=10):
+    def ustvari_cookie(self, uporabnik, cas_trajanja=60):
         uporabnik_id = uporabnik.key.id()
         expires = datetime.datetime.utcnow() + datetime.timedelta(minutes=cas_trajanja)
         expires_ts = int(time.mktime(expires.timetuple()))
@@ -75,9 +75,6 @@ class MainHandler(BaseHandler):
             self.redirect("/prikazi-sporocila")
         else:
             self.redirect("/napacno-geslo")
-
-'''class LogoutHandler(BaseHandler):
-    def get(self):'''
 
 
 class RegistracijaHandler(BaseHandler):
@@ -124,31 +121,36 @@ class PosljiSporociloHandler(BaseHandler):
 
 class PrikaziSporocilaHandler(BaseHandler):
     def get(self):
-        #vsa_sporocila = Sporocilo.query().order(-Sporocilo.nastanek).fetch()
 
         cookie_value = self.request.cookies.get("uid")
         uporabnik_id, _, _ = cookie_value.split(":")
         uporabnik_id = int(uporabnik_id)
-        #self.write(str(uporabnik_id))
-        #return
-        uporabnik = Uporabnik.get_by_id(int(uporabnik_id))
-        #prejemnik = Uporabnik.gql("WHERE email='"+ email_prejemnika +"'").get()
-        #prejemnik_id= prejemnik.key.id()
-        email_posiljatelja = uporabnik.email
-        #KAKO PRAVILNO PRIKAZATI POSILJATELJEV EMAIL PREJEMNIKU??
-        #POSILJATELJ NI EMAIL OSEBE, KI JE TRENUTNO LOGIRANA V SISTEM PAC PA EMAIL
+
+        #uporabnik = Uporabnik.get_by_id(int(uporabnik_id))
+
         prejeta_sporocila = Sporocilo.gql("WHERE prejemnik_id="+ str(uporabnik_id)).order(-Sporocilo.nastanek).fetch()
-        #poslana_sporocila = Sporocilo.gql("WHERE prejemnik_id="+ str(uporabnik_id)).order(-Sporocilo.nastanek).fetch()
-
-
+        poslana_sporocila = Sporocilo.gql("WHERE uporabnik_id="+ str(uporabnik_id)).order(-Sporocilo.nastanek).fetch()
 
         view_vars = {
             "prejeta_sporocila": prejeta_sporocila,
-            "email_posiljatelja": email_posiljatelja,
-
+            "poslana_sporocila": poslana_sporocila,
         }
 
         return self.render_template("prikazi_sporocila.html", view_vars)
+
+class PoslanaSporocilaHandler(BaseHandler):
+    def get(self):
+        cookie_value = self.request.cookies.get("uid")
+        uporabnik_id, _, _ = cookie_value.split(":")
+        uporabnik_id = int(uporabnik_id)
+        poslana_sporocila = Sporocilo.gql("WHERE uporabnik_id="+ str(uporabnik_id)).order(-Sporocilo.nastanek).fetch()
+
+        view_vars={
+            "poslana_sporocila": poslana_sporocila,
+        }
+
+        return self.render_template("poslana-sporocila.html", view_vars)
+
 
 
 class PosameznoSporociloHandler(BaseHandler):
@@ -232,6 +234,7 @@ app = webapp2.WSGIApplication([
     webapp2.Route('/', MainHandler),
     webapp2.Route('/poslji-sporocilo', PosljiSporociloHandler),
     webapp2.Route('/prikazi-sporocila', PrikaziSporocilaHandler),
+    webapp2.Route('/poslana-sporocila', PoslanaSporocilaHandler),
     webapp2.Route('/sporocilo/<sporocilo_id:\d+>', PosameznoSporociloHandler),
     webapp2.Route('/sporocilo/<sporocilo_id:\d+>/uredi', UrediSporociloHandler),
     webapp2.Route('/sporocilo/<sporocilo_id:\d+>/izbrisi', IzbrisiSporociloHandler),
