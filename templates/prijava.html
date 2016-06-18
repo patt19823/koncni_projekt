@@ -1,35 +1,67 @@
-{% extends "base_prijava_registracija.html" %}
-{% block title %}Prijava{% endblock title %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+     <title> {% block title %} {% endblock title%}</title>
+    <!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
+<!-- Optional theme -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+<style>
+    .margin{
+    margin: 1px;
+
+    }
+    .middle{
+    float: none;
+    margin: 0 auto;
+    }
+</style>
+</head>
 
 <body>
-{% block specifika %}
-        {% if logiran %}
-            <div class="panel panel-default">
-                <div class="panel-heading margin">
-                     <h2> Dobrodošli!</h2>
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12">
+            <h3 class="page-header" style="text-align:center"> Bmail</h3>
 
-                </div>
-            <div class="panel-body">
-               <a href="/prikazi-sporocila" class="btn btn-success">Poglej vsa sporočila</a>
-                <a href="/poslji-sporocilo" class="btn btn-danger">Pošlji novo sporočilo</a>
-            </div></div>
-        {% else %}
-             <div class="panel panel-default">
-                <div class="panel-heading margin">
-                    <h4>Prijavi se</h4>
-                 </div>
+        </div>
+    </div>
+        <div class="row">
+            <div class="col-lg-4 middle">
+                 <div class="panel panel-default">
+                    <div class="panel-heading margin">
+                        <h4>Prijavi se</h4>
+                    </div>
                     <div class="panel-body">
-                        <form action="/" method="post">
-                            <input placeholder="Vnesi svoj email" name="email" type="email"> <br>
-                            <input placeholder="Vnesi svoje geslo" name="geslo" type="password"> <br>
-                            <button type="submit" class="btn btn-success">Vstopi</button>
-                        </form>
-                        <h2>Se nisi prijavljen?</h2> <a href="/registracija" class="btn btn-default">Registriraj se tukaj </a>
+                        <div class="form-group">
+                            <form action="/" method="post">
+                                <input class="form-control margin" placeholder="Vnesi svoj email" name="email" type="email">
+                                <input class="form-control margin" placeholder="Vnesi svoje geslo" name="geslo" type="password">
+
+                                <button type="submit" class="btn btn-success margin">Vstopi</button>
+                            </form>
+                        </div>
+                        <h4>Še nisi prijavljen?</h4> <a href="/registracija" class="btn btn-default btn-sm">Registriraj se </a>
+                    </div>
+                 </div>
+            </div>
+        </div>
+    </div>
+    </div>
+
+
+
+
                     </div>
 
              </div>
-        {% endif %}
+
     </div>
-{% endblock specifika %}
+
 </body>
 </html>

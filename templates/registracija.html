@@ -1,30 +1,77 @@
-{% extends "base_prijava_registracija.html" %}
-    {% block title %}Registracija{% endblock title %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+     <title> {% block title %} {% endblock title%}</title>
+    <!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
 
-{% block specifika %}
-<div class="panel panel-default margin">
-    <div class="panel-heading margin">
-        <h4>Registracija</h4>
+<!-- Optional theme -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+<style>
+    .margin{
+    margin: 1px;
+
+    }
+    .middle{
+    float: none;
+    margin: 0 auto;
+    }
+</style>
+</head>
+
+<body>
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12">
+            <h3 class="page-header" style="text-align:center"> Bmail</h3>
+
+        </div>
+    </div>
+        <div class="row">
+            <div class="col-lg-4 middle">
+                 <div class="panel panel-default">
+                    <div class="panel-heading margin">
+                        <h4>Registriraj se</h4>
+                    </div>
+                    <div class="panel-body">
+                        <div class="form-group">
+                            <form action="/registracija" method="post">
+                                <input class="form-control margin" type="text" name="ime" placeholder="Vnesi ime">
+                                <input type="email" class="form-control margin" name="email" placeholder="Vnesi svoj email">
+                                <input type="password" class="form-control margin" name="geslo" placeholder="Vnesi svoje geslo">
+                                <input type="password" class="form-control margin" name="ponovno_geslo" placeholder="Potrdi svoje geslo">
+                                <button type="submit" class="btn btn-success margin">Registriraj Se</button>
+                            </form>
+                        </div>
+                    </div>
+                 </div>
+            </div>
+        </div>
     </div>
 
-    <div class="panel-body margin">
-        <form method="post" action="/registracija">
-                <p>
-                    <input type="text" class="form-control" name="ime" placeholder="Vnesi ime">
-                </p>
-                <p>
-                    <input type="email" class="form-control" name="email" placeholder="Vnesi svoj email">
-                </p>
-                <p>
-                    <input type="password" class="form-control" name="geslo" placeholder="Vnesi svoje geslo">
-                </p>
-                <p>
-                    <input type="password" class="form-control" name="ponovno_geslo" placeholder="Potrdi svoje geslo">
-                </p>
-                <p>
-                    <button type="submit" class="btn btn-success">Registriraj Se</button>
-                </p>
-        </form>
-    </div>
-</div>
-{% endblock specifika %}
+
+
+
+
+
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+

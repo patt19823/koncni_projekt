@@ -4,30 +4,29 @@
 {% block specifika %}
 <div class="container">
     <div class="row">
-        <div class="col-lg-2 col-md-2 col-sm-2">
-
-    <a href="/poslji-sporocilo" class="btn btn-danger gumb">Pošlji novo sporočilo</a>
-    <ul class="nav nav-pills nav-stacked">
-        <li role="presentation" class="active"><a href="/prikazi-sporocila">Prejeto</a></li>
-        <li role="presentation"><a href="/poslana-sporocila">Poslano</a></li>
-        <li role="presentation"><a href="/vreme">Poglej Vreme</a></li>
-    </ul>
-    </div>
-
-    <div class="col-md-7 col-lg-9 col-sm-9">
-       {% for sporocilo in prejeta_sporocila %}
-            <div class="panel panel-default">
-                <div class="panel-heading">
-
-                    <a href="/sporocilo/{{ sporocilo.key.id() }}"><p><b>Od: {{ sporocilo.dobi_email_posiljatelja() }}:</b>
-                        Za: {{ sporocilo.dobi_email_prejemnika() }} - {{ sporocilo.zadeva}} {{ sporocilo.nastanek.day }}.{{ sporocilo.nastanek.month }}.{{ sporocilo.nastanek.year }}
-                        {{ sporocilo.nastanek.hour }}:{{ sporocilo.nastanek.minute }}</p></a>
-
-
+        <div class="col-lg-2 col-md-2 col-sm-12">
+            <a href="/poslji-sporocilo" class="btn btn-danger gumb">Pošlji novo sporočilo</a>
+            <ul class="nav nav-pills nav-stacked">
+                <li role="presentation" class="active"><a href="/prikazi-sporocila">Prejeto</a></li>
+                <li role="presentation"><a href="/poslana-sporocila">Poslano</a></li>
+                <li role="presentation"><a href="/vreme">Poglej Vreme</a></li>
+                <li role="presentation"><a href="/logout" class="btn btn-default btn-sm margin-bottom">
+                        <span class="glyphicon glyphicon-off" aria-hidden="true"></span> Odjavi se</a></li>
+            </ul>
+        </div>
+        <div class="col-md-8 col-lg-8 col-sm-12">
+            <h5 class="page-header margin" style="text-align:center"> Prejeta sporočila</h5>
+            {% for sporocilo in prejeta_sporocila %}
+                <div class="panel panel-default margin">
+                    <div class="panel-heading">
+                        <a href="/sporocilo/{{ sporocilo.key.id() }}"><p><b>Od: {{ sporocilo.dobi_email_posiljatelja() }}:</b>
+                            - {{ sporocilo.zadeva}} {{ sporocilo.nastanek.day }}.{{ sporocilo.nastanek.month }}.{{ sporocilo.nastanek.year }}
+                            {{ sporocilo.nastanek.hour }}:{{ sporocilo.nastanek.minute }}</p></a>
+                    </div>
                 </div>
-            </div>
 
- {% endfor %}
+            {% endfor %}
+        </div>
     </div>
 
 {% endblock specifika %}
