@@ -70,9 +70,13 @@ class MainHandler(BaseHandler):
 
         uporabnik = Uporabnik.query(Uporabnik.email == email).get()
 
-        if Uporabnik.preveri_geslo(original_geslo=geslo, uporabnik=uporabnik):
-            self.ustvari_cookie(uporabnik=uporabnik)
-            self.redirect("/prikazi-sporocila")
+        if uporabnik:
+
+            if Uporabnik.preveri_geslo(original_geslo=geslo, uporabnik=uporabnik):
+                self.ustvari_cookie(uporabnik=uporabnik)
+                self.redirect("/prikazi-sporocila")
+            else:
+                self.redirect("/napacno-geslo")
         else:
             self.redirect("/napacno-geslo")
 

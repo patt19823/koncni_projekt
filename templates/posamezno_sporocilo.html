@@ -4,29 +4,30 @@
 {% block specifika %}
 <div class="container">
     <div class="row">
-        <div class="col-lg-2 col-md-2 col-sm-2">
-
-    <a href="/poslji-sporocilo" class="btn btn-danger gumb">Pošlji novo sporočilo</a>
+        <div class="col-lg-2 col-md-2 col-sm-12">
     <ul class="nav nav-pills nav-stacked">
+        <li role="presentation"><a class="btn btn-danger" role="button" href="/poslji-sporocilo" >Novo sporočilo</a></li>
         <li role="presentation"><a href="/prikazi-sporocila">Prejeto</a></li>
         <li role="presentation"><a href="/poslana-sporocila">Poslano</a></li>
         <li role="presentation"><a href="/vreme">Poglej Vreme</a></li>
         <li role="presentation"><a href="/vreme">Poglej Vreme</a></li>
-        <li role="presentation"><a href="/logout" class="btn btn-default btn-sm">
+        <li role="presentation"><a href="/logout" class="btn btn-default btn-sm margin-bottom">
                 <span class="glyphicon glyphicon-off" aria-hidden="true"></span> Odjavi se
             </a></li>
     </ul>
     </div>
-<div class="col-md-7 col-lg-9 col-sm-9">
+<div class="col-md-8 col-lg-8 col-sm-12">
     <div class="panel panel-default">
         <div class="panel-heading">
-            <p>Od: {{ sporocilo.dobi_email_posiljatelja() }} - {{ sporocilo.nastanek }}</p>
-            <p>Zadeva: {{ sporocilo.zadeva }}</p>
+            Od: {{ sporocilo.dobi_email_posiljatelja() }} - Zadeva: {{ sporocilo.zadeva }}
+            <div class="pull-right">
+            {{ sporocilo.nastanek.day }}.{{ sporocilo.nastanek.month }}.{{ sporocilo.nastanek.year }}
+                            {{ sporocilo.nastanek.hour }}:{{ sporocilo.nastanek.minute }}
+               <span class="glyphicon glyphicon-trash"></span> <a href="/sporocilo/{{ sporocilo.key.id() }}/izbrisi">Izbriši</a>
+            </div>
         </div>
         <div class="panel-body">
-            <p>Tekst: {{ sporocilo.tekst }}</p>
-
-            <p><a href="/sporocilo/{{ sporocilo.key.id() }}/izbrisi">Izbriši sporočilo</a></p>
+            <p>{{ sporocilo.tekst }}</p>
          </div>
     </div>
 </div>
